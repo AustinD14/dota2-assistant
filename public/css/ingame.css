@@ -19,7 +19,7 @@ h1 {
   font-family: "Roboto Mono", sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 26px;
   color: #d5d5d5;
 }
 
@@ -87,7 +87,7 @@ h1 {
   padding: 10px;
   margin-top: 16px;
   color: #8d8d8d;
-  height: calc(100vh - 165px);
+  height: calc(50vh - 165px);
   max-width: inherit;
   font-size: 13px;
 }
@@ -115,9 +115,16 @@ h1 {
   border-right: 8px solid #464646;
 }
 
-.highlight {
+.lightBlue {
   color: #00defa;
 }
+.red {
+  color: red;
+}
+.black {
+  color: black;
+}
+
 
 button.logCopy {
   background: #464646;

@@ -6,7 +6,6 @@ import {
 
 import { AppWindow } from "../AppWindow";
 import { kHotkeys, kWindowNames, kGamesFeatures } from "../consts";
-
 import WindowState = overwolf.windows.WindowStateEx;
 
 // The window displayed in-game while a game is running.
@@ -35,6 +34,11 @@ class InGame extends AppWindow {
 
     this.setToggleHotkeyBehavior();
     this.setToggleHotkeyText();
+  }
+
+  public playSound() {
+    var beep = new Audio("../../sounds/stack.wav")
+    beep.play()
   }
 
   public static instance() {
@@ -81,12 +85,14 @@ class InGame extends AppWindow {
 
     if (isClockTimeChanged) {
       const clocktime = JSON.parse(e.events[0].data).clock_time % 60;
-
+      if (clocktime == MIN_STACK_TIME) {
+        this.playSound()
+      }
       if (clocktime >= MIN_STACK_TIME && clocktime <= MAX_STACK_TIME) {
         this.logLine(this._stackLog, STACK_MESSAGE, "red");
       }
       else {
-        this.logLine(this._stackLog, "", "lightBlue");
+        this.logLine(this._stackLog, clocktime + "", "lightBlue");
       }
 
     }
