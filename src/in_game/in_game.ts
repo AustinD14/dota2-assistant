@@ -14,16 +14,23 @@ import WindowState = overwolf.windows.WindowStateEx;
 // and writes them to the relevant log using <pre> tags.
 // The window also sets up Ctrl+F as the minimize/restore hotkey.
 // Like the background window, it also implements the Singleton design pattern.
+
+//GLOBALS
+const MIN_STACK_TIME = 40;
+const MAX_STACK_TIME = 52;
+const STACK_MESSAGE = "STACK"
+
 class InGame extends AppWindow {
   private static _instance: InGame;
   private _gameEventsListener: OWGamesEvents;
-  private _eventsLog: HTMLElement;
+  private _stackLog: HTMLElement;
   private _infoLog: HTMLElement;
+
 
   private constructor() {
     super(kWindowNames.inGame);
 
-    this._eventsLog = document.getElementById('eventsLog');
+    this._stackLog = document.getElementById('stackLog');
     this._infoLog = document.getElementById('infoLog');
 
     this.setToggleHotkeyBehavior();
@@ -57,27 +64,33 @@ class InGame extends AppWindow {
   }
 
   private onInfoUpdates(info) {
-    this.logLine(this._infoLog, info, false);
+    // this.logLine(this._infoLog, info, false);
   }
 
   // Special events will be highlighted in the event log
   private onNewEvents(e) {
-    const shouldHighlight = e.events.some(event => {
+
+
+    const isClockTimeChanged = e.events.some(event => {
       switch (event.name) {
-        case 'kill':
-        case 'death':
-        case 'assist':
-        case 'level':
-        case 'matchStart':
-        case 'match_start':
-        case 'matchEnd':
-        case 'match_end':
+        case 'clock_time_changed':
           return true;
       }
-
       return false
     });
-    this.logLine(this._eventsLog, e, shouldHighlight);
+
+    if (isClockTimeChanged) {
+      const clocktime = JSON.parse(e.events[0].data).clock_time % 60;
+
+      if (clocktime >= MIN_STACK_TIME && clocktime <= MAX_STACK_TIME) {
+        this.logLine(this._stackLog, STACK_MESSAGE, "red");
+      }
+      else {
+        this.logLine(this._stackLog, "", "lightBlue");
+      }
+
+    }
+
   }
 
   // Displays the toggle minimize/restore hotkey in the window header
@@ -109,13 +122,12 @@ class InGame extends AppWindow {
   }
 
   // Appends a new line to the specified log
-  private logLine(log: HTMLElement, data, highlight) {
-    const line = document.createElement('pre');
+  private logLine(log: HTMLElement, data, color: string) {
+    const line = document.createElement('h1');
     line.textContent = JSON.stringify(data);
 
-    if (highlight) {
-      line.className = 'highlight';
-    }
+    line.className = color;
+
 
     // Check if scroll is near bottom
     const shouldAutoScroll =
