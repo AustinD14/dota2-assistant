@@ -1,5 +1,5 @@
 body {
-  background-color: #333333;
+  background-color: #141414;
   margin: 0px;
   display: flex;
   flex-direction: column;
@@ -79,7 +79,7 @@ h1 {
 }
 
 .dataText {
-  background-color: #464646;
+  background-color: #1f1f1f;
   border-radius: 4px;
   overflow-x: hidden;
   overflow-y: auto;

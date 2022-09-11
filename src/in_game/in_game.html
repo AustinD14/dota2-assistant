@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="../../css/general.css" />
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="../../css/modal.css" />
   <title>For Noobs App - In-Game page</title>
 </head>
+
 <body class="in-game">
   <!-- -------------------------------- Header ------------------------------- -->
 
@@ -16,7 +18,7 @@
     <h1>For noobs App / in-game window</h1>
     <h1 class="hotkey-text">
       Show/Hide Hotkey:
-      <kbd id="hotkey"></kbd>
+      <kb d id="hotkey"></kb>
     </h1>
     <div class="window-controls-group">
       <button id="minimizeButton" class="window-control window-control-minimize" />
@@ -28,27 +30,33 @@
   <!-- --------------------------------- Main -------------------------------- -->
   <main>
     <div id="logs">
-      <div id="events" class="logColumn">
-        <h1>Stack</h1>
+      <div id="stackEvents" class="logColumn">
+        <h1>Stack Timer</h1>
         <div id="stackLog" class="dataText">
         </div>
       </div>
-      <div id="infoUpdates" class="logColumn">
-        <h1>Duuno yet</h1>
-        <div id="infoLog" class="dataText"></div>
+      <div id="wardEvents" class="logColumn">
+        <h1>Obs Wards Updates</h1>
+        <div id="wardUpdates" class="dataText"></div>
       </div>
-      <div id="2infoUpdates" class="logColumn">
-        <h1>duno yet</h1>
-        <div id="2infoLog" class="dataText"></div>
+      <div id="buybackEvents" class="logColumn">
+        <h1>Buyback Updates</h1>
+        <div id="buybackUpdates" class="dataText"></div>
       </div>
     </div>
     <div id="waitMenu">
-      <p>wtf</p>
     </div>
     <div id="other">
       <h1>Noob Helper</h1>
       <p id="infoParagraph">
-        for noobs
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+        numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+        optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
+        obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
+        nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+        tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+        quia. Quo neque error repudiandae
       </p>
     </div>
   </main>
@@ -56,20 +64,26 @@
   <script>
     // Standard Google Universal Analytics code
     (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      },
-        i[r].l = 1 * new Date(); a = s.createElement(o),
-          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        },
+        i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
       // Note: https protocol here
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-144253676-3', 'auto');
 
     // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
-    ga('set', 'checkProtocolTask', function () { });
+    ga('set', 'checkProtocolTask', function () {});
     ga('require', 'displayfeatures');
     ga('send', 'pageview', '/in_game.html');
   </script>
 </body>
+
 </html>
