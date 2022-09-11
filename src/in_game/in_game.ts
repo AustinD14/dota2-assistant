@@ -17,28 +17,32 @@ import WindowState = overwolf.windows.WindowStateEx;
 //GLOBALS
 const MIN_STACK_TIME = 40;
 const MAX_STACK_TIME = 52;
-const STACK_MESSAGE = "STACK"
+const STACK_MESSAGE = "STACK";
+const WARD_MESSAGE = "OBS IS AVAILABLE";
 
 class InGame extends AppWindow {
   private static _instance: InGame;
   private _gameEventsListener: OWGamesEvents;
   private _stackLog: HTMLElement;
-  private _infoLog: HTMLElement;
-
+  private _wardUpdates: HTMLElement;
+  private _buybackUpdates: HTMLElement;
+  private obsSound = new Audio("../../sounds/Obs.mp3")
+  private stackSound = new Audio("../../sounds/stack.wav")
+  private isLategame = false;
 
   private constructor() {
     super(kWindowNames.inGame);
 
     this._stackLog = document.getElementById('stackLog');
-    this._infoLog = document.getElementById('infoLog');
+    this._wardUpdates = document.getElementById('wardUpdates');
+    this._buybackUpdates = document.getElementById('buybackUpdates');
 
     this.setToggleHotkeyBehavior();
     this.setToggleHotkeyText();
   }
 
-  public playSound() {
-    var beep = new Audio("../../sounds/stack.wav")
-    beep.play()
+  public playSound(sound) {
+    sound.play()
   }
 
   public static instance() {
@@ -68,35 +72,52 @@ class InGame extends AppWindow {
   }
 
   private onInfoUpdates(info) {
-    // this.logLine(this._infoLog, info, false);
+    // this.logLine(this._wardUpdates, info, false);
   }
 
   // Special events will be highlighted in the event log
   private onNewEvents(e) {
-
-
-    const isClockTimeChanged = e.events.some(event => {
+    e.events.some(event => {
       switch (event.name) {
         case 'clock_time_changed':
-          return true;
+          this.stackNotification(e);
+          break;
+        case 'ward_purchase_cooldown_changed':
+          this.wardNotification(e);
+          break;
+        // case 'hero_buyback_info_changed':
+        //   this.buybackNotification(e);
+        //   break;
       }
-      return false
     });
 
-    if (isClockTimeChanged) {
-      const clocktime = JSON.parse(e.events[0].data).clock_time % 60;
-      if (clocktime == MIN_STACK_TIME) {
-        this.playSound()
-      }
-      if (clocktime >= MIN_STACK_TIME && clocktime <= MAX_STACK_TIME) {
-        this.logLine(this._stackLog, STACK_MESSAGE, "red");
-      }
-      else {
-        this.logLine(this._stackLog, clocktime + "", "lightBlue");
-      }
+  }
+
+  private stackNotification(e) {
+    const clocktime = JSON.parse(e.events[0].data).clock_time % 60;
+    if (clocktime == MIN_STACK_TIME) {
+      this.playSound(this.stackSound)
+    }
+    if (clocktime >= MIN_STACK_TIME && clocktime <= MAX_STACK_TIME) {
+      this.logLine(this._stackLog, STACK_MESSAGE, "red");
+    }
+    else {
+      this.logLine(this._stackLog, clocktime + "", "lightBlue");
+    }
+  }
+
+  private wardNotification(e) {
+    const wardCooldown = JSON.parse(e.events[0].data).ward_purchase_cooldown;
+    if (wardCooldown == 0) {
+      this.logLine(this._wardUpdates, WARD_MESSAGE, "lightBlue");
+      this.playSound(this.obsSound)
 
     }
+  }
 
+  private buybackNotification(e){
+    this.logLine(this._buybackUpdates, e, "lightBlue");
+    console.log(e);
   }
 
   // Displays the toggle minimize/restore hotkey in the window header

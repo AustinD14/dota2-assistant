@@ -10,6 +10,7 @@ export const kGamesFeatures = new Map<number, string[]>([
       'daytime_changed',
       'clock_time_changed',
       'ward_purchase_cooldown_changed',
+      'hero_buyback_info_changed',
       'match_ended',
       'match_info',
       'roster',
