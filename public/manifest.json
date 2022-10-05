@@ -71,12 +71,12 @@
         "transparent": true,
         "override_on_update": true,
         "size": {
-          "width": 800 ,
-          "height": 460 
+          "width": 1200 ,
+          "height": 500 
         },
         "min_size": {
-          "width": 800,
-          "height": 460
+          "width": 1200,
+          "height": 500
         }
       }
     },
