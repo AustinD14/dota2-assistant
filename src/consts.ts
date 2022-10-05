@@ -17,6 +17,8 @@ export const kGamesFeatures = new Map<number, string[]>([
       'party',
       'error',
       'hero_pool',
+      'hero_item_cooldown_changed',
+      'hero_item_changed',
       'me',
       'game'
     ]
